@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Running Motivation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2.5rem;
+      color: #222;
+    }
+
+    .runner-gif {
+      margin-top: 20px;
+      width: 250px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .quote-box {
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 600px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .quote-text {
+      font-size: 1.5rem;
+      font-style: italic;
+    }
+
+    .quote-author {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff6f61;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #e55b50;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏃 Running Motivation 🏃</h1>
+
+  <!-- Running GIF -->
+  <img src="https://media.giphy.com/media/l41YdMha8s5Ynw5ws/giphy.gif" alt="Running Animation" class="runner-gif">
+
+  <!-- Quote Box -->
+  <div class="quote-box">
+    <p id="quote" class="quote-text">"Push harder than yesterday if you want a different tomorrow."</p>
+    <p id="author" class="quote-author">– Unknown</p>
+    <button onclick="newQuote()">Next Quote</button>
+  </div>
+
+  <script>
+    const quotes = [
+      { text: "Run when you can, walk if you have to, crawl if you must; just never give up.", author: "Dean Karnazes" },
+      { text: "The miracle isn’t that I finished. The miracle is that I had the courage to start.", author: "John Bingham" },
+      { text: "It’s supposed to be hard. If it wasn’t hard, everyone would do it. The hard is what makes it great.", author: "Tom Hanks" },
+      { text: "Run often. Run long. But never outrun your joy of running.", author: "Julie Isphording" },
+      { text: "Only those who risk going too far can possibly find out how far one can go.", author: "T.S. Eliot" },
+      { text: "Most people never run far enough on their first wind to find out they’ve got a second.", author: "William James" },
+      { text: "If you want to change your body, exercise. If you want to change your life, become a runner.", author: "Unknown" },
+      { text: "A year from now you may wish you had started today.", author: "Karen Lamb" },
+      { text: "Running teaches us to keep moving forward, one step at a time, especially in the most painful moments.", author: "Unknown" },
+      { text: "The obsession with running is really an obsession with the potential for more and more life.", author: "George Sheehan" },
+      { text: "There is magic in misery. Just ask any runner.", author: "Dean Karnazes" },
+      { text: "The will to win means nothing without the will to prepare.", author: "Juma Ikangaa" },
+      { text: "Pain is temporary, pride is forever.", author: "Unknown" },
+      { text: "To give anything less than your best is to sacrifice the gift.", author: "Steve Prefontaine" },
+      { text: "Every marathon I ran, I knew I had a faster one in me.", author: "Dick Beardsley" },
+      { text: "A runner must run with dreams in his heart.", author: "Emil Zatopek" },
+      { text: "When you run on the earth and with the earth, you can run forever.", author: "Raramuri Proverb" },
+      { text: "Running is the greatest metaphor for life, because you get out of it what you put into it.", author: "Oprah Winfrey" },
+      { text: "I don’t stop when I’m tired. I stop when I’m done.", author: "David Goggins" },
+      { text: "Some seek the comfort of the crowds. I run for the solitude.", author: "Steve Prefontaine" },
+      { text: "There is no finish line.", author: "Nike" },
+      { text: "Running is alone time that lets my brain unspool the tangles that build up over days.", author: "Rob Haneisen" },
+      { text: "The body achieves what the mind believes.", author: "Unknown" },
+      { text: "The more I run, the more I want to run, and the more I live a life conditioned and influenced by my running.", author: "John Stanton" },
+      { text: "Act like a horse. Be dumb. Just run.", author: "Jumbo Elliot" },
+      { text: "The marathon can humble you.", author: "Bill Rodgers" },
+      { text: "Running is the classical road to self-consciousness, self-awareness, and self-reliance.", author: "Noel Carroll" },
+      { text: "You don’t stop running because you get old. You get old because you stop running.", author: "Christopher McDougall" },
+      { text: "In running, every step counts, just like in life.", author: "Unknown" },
+      { text: "The reward of running is not in the finish line, but in the journey.", author: "Unknown" },
+      { text: "Running is the art of pushing yourself when you least want to.", author: "Unknown" },
+      { text: "Running is about finding your inner peace, and so is a life well lived.", author: "Dean Karnazes" },
+      { text: "There’s magic in the misery of running. That’s why we love it.", author: "Unknown" },
+      { text: "Run with your heart, not just your legs.", author: "Unknown" },
+      { text: "Your speed doesn’t matter. Forward is forward.", author: "Unknown" },
+      { text: "Long runs put the world back into perspective.", author: "Unknown" },
+      { text: "Sweat is just fat crying.", author: "Unknown" },
+      { text: "Running is cheaper than therapy.", author: "Unknown" },
+      { text: "Running clears my mind and fills my soul.", author: "Unknown" },
+      { text: "Every step forward is progress.", author: "Unknown" },
+      { text: "The finish line is just the beginning of a whole new race.", author: "Unknown" },
+      { text: "Tough runs don’t last, but tough runners do.", author: "Unknown" },
+      { text: "Running is a celebration of life and movement.", author: "Unknown" },
+      { text: "Running allows me to set my spirit free.", author: "Unknown" },
+      { text: "Your body can do it. It’s your mind you need to convince.", author: "Unknown" },
+      { text: "Don’t just run for distance, run for growth.", author: "Unknown" },
+      { text: "Discipline is the bridge between goals and achievement.", author: "Jim Rohn" },
+      { text: "Once you’re a runner, you’re always a runner.", author: "John Bingham" },
+      { text: "The voice in your head that says you can’t do it is a liar.", author: "Unknown" },
+      { text: "Running is the quietest form of rebellion.", author: "Unknown" },
+      { text: "There’s no bad run, only better stories.", author: "Unknown" }
+      // ⚡ Extend up to 200 quotes like this
+    ];
+
+    function newQuote() {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      document.getElementById("quote").textContent = `"${quotes[randomIndex].text}"`;
+      document.getElementById("author").textContent = `– ${quotes[randomIndex].author}`;
+    }
+  </script>
+</body>
+</html>
