@@ -1,143 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Running Motivation</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: linear-gradient(to right, #ffecd2, #fcb69f);
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Club Motivation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    h1 {
-      margin-top: 20px;
-      font-size: 2.5rem;
-      color: #222;
-    }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-    .runner-gif {
-      margin-top: 20px;
-      width: 250px;
-      border-radius: 15px;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-    }
+        body {
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            background: #fefefe;
+            min-height: 100vh;
+        }
 
-    .quote-box {
-      margin: 30px auto;
-      padding: 20px;
-      max-width: 600px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-    }
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fefefe;
+            transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-    .quote-text {
-      font-size: 1.5rem;
-      font-style: italic;
-    }
+        .page.hidden {
+            transform: translateY(-100vh);
+            opacity: 0;
+        }
 
-    .quote-author {
-      margin-top: 10px;
-      font-weight: bold;
-      color: #555;
-    }
+        /* Home Page Styles */
+        .home-page {
+            background: #fefefe;
+            text-align: center;
+            color: #1a1a1a;
+            z-index: 3;
+        }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #ff6f61;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        .home-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
 
-    button:hover {
-      background-color: #e55b50;
-    }
-  </style>
+        .question-header {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 4rem;
+            color: #1a1a1a;
+            opacity: 0;
+            animation: slideUp 1.2s ease-out 0.3s forwards;
+            letter-spacing: -2px;
+        }
+
+        .cta-button {
+            background: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            color: #fefefe;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 1.8rem 4rem;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0;
+            animation: slideUp 1.2s ease-out 0.8s forwards;
+        }
+
+        .cta-button:hover {
+            background: #fefefe;
+            color: #1a1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(26, 26, 26, 0.15);
+        }
+
+        /* Animation Page Styles */
+        .animation-page {
+            background: #fefefe;
+            z-index: 2;
+            position: relative;
+        }
+
+        .animation-page::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            border: 2px solid #f0f0f0;
+            z-index: -1;
+        }
+
+        .runner-gif {
+            width: 300px;
+            height: 300px;
+            border-radius: 0;
+            box-shadow: 0 20px 60px rgba(26, 26, 26, 0.08);
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+            border: 4px solid #1a1a1a;
+        }
+
+        /* Quote Page Styles */
+        .quote-page {
+            background: #fefefe;
+            text-align: center;
+            color: #1a1a1a;
+            z-index: 1;
+        }
+
+        .quote-content {
+            max-width: 900px;
+            padding: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out 0.2s forwards;
+        }
+
+        .quote-text {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 3rem;
+            font-style: normal;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        .quote-author {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.5;
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .next-button {
+            background: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            color: #fefefe;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 1.5rem 3rem;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .next-button:hover {
+            background: #fefefe;
+            color: #1a1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(26, 26, 26, 0.15);
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { opacity: 1; }
+            50% { opacity: 0.9; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .home-content, .quote-content {
+                padding: 1rem;
+            }
+            
+            .cta-button {
+                font-size: 1.2rem;
+                padding: 1rem 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>🏃 Running Motivation 🏃</h1>
+    <!-- Home Page -->
+    <div class="page home-page" id="homePage">
+        <div class="home-content">
+            <h1 class="question-header" id="questionHeader">Are you tired?</h1>
+            <button class="cta-button" onclick="startAnimation()">Click Here!</button>
+        </div>
+    </div>
 
-  <!-- Running GIF -->
-  <img src="https://media.giphy.com/media/l41YdMha8s5Ynw5ws/giphy.gif" alt="Running Animation" class="runner-gif">
+    <!-- Animation Page -->
+    <div class="page animation-page hidden" id="animationPage">
+        <img src="https://media.giphy.com/media/3o6fIUZTTDl0IDjbZS/giphy.gif" alt="Running Animation" class="runner-gif">
+    </div>
 
-  <!-- Quote Box -->
-  <div class="quote-box">
-    <p id="quote" class="quote-text">"Push harder than yesterday if you want a different tomorrow."</p>
-    <p id="author" class="quote-author">– Unknown</p>
-    <button onclick="newQuote()">Next Quote</button>
-  </div>
+    <!-- Quote Page -->
+    <div class="page quote-page hidden" id="quotePage">
+        <div class="quote-content">
+            <p class="quote-text" id="quoteText"></p>
+            <p class="quote-author" id="quoteAuthor"></p>
+            <button class="next-button" onclick="getNextQuote()">Get Another Quote</button>
+        </div>
+    </div>
 
-  <script>
-    const quotes = [
-      { text: "Run when you can, walk if you have to, crawl if you must; just never give up.", author: "Dean Karnazes" },
-      { text: "The miracle isn’t that I finished. The miracle is that I had the courage to start.", author: "John Bingham" },
-      { text: "It’s supposed to be hard. If it wasn’t hard, everyone would do it. The hard is what makes it great.", author: "Tom Hanks" },
-      { text: "Run often. Run long. But never outrun your joy of running.", author: "Julie Isphording" },
-      { text: "Only those who risk going too far can possibly find out how far one can go.", author: "T.S. Eliot" },
-      { text: "Most people never run far enough on their first wind to find out they’ve got a second.", author: "William James" },
-      { text: "If you want to change your body, exercise. If you want to change your life, become a runner.", author: "Unknown" },
-      { text: "A year from now you may wish you had started today.", author: "Karen Lamb" },
-      { text: "Running teaches us to keep moving forward, one step at a time, especially in the most painful moments.", author: "Unknown" },
-      { text: "The obsession with running is really an obsession with the potential for more and more life.", author: "George Sheehan" },
-      { text: "There is magic in misery. Just ask any runner.", author: "Dean Karnazes" },
-      { text: "The will to win means nothing without the will to prepare.", author: "Juma Ikangaa" },
-      { text: "Pain is temporary, pride is forever.", author: "Unknown" },
-      { text: "To give anything less than your best is to sacrifice the gift.", author: "Steve Prefontaine" },
-      { text: "Every marathon I ran, I knew I had a faster one in me.", author: "Dick Beardsley" },
-      { text: "A runner must run with dreams in his heart.", author: "Emil Zatopek" },
-      { text: "When you run on the earth and with the earth, you can run forever.", author: "Raramuri Proverb" },
-      { text: "Running is the greatest metaphor for life, because you get out of it what you put into it.", author: "Oprah Winfrey" },
-      { text: "I don’t stop when I’m tired. I stop when I’m done.", author: "David Goggins" },
-      { text: "Some seek the comfort of the crowds. I run for the solitude.", author: "Steve Prefontaine" },
-      { text: "There is no finish line.", author: "Nike" },
-      { text: "Running is alone time that lets my brain unspool the tangles that build up over days.", author: "Rob Haneisen" },
-      { text: "The body achieves what the mind believes.", author: "Unknown" },
-      { text: "The more I run, the more I want to run, and the more I live a life conditioned and influenced by my running.", author: "John Stanton" },
-      { text: "Act like a horse. Be dumb. Just run.", author: "Jumbo Elliot" },
-      { text: "The marathon can humble you.", author: "Bill Rodgers" },
-      { text: "Running is the classical road to self-consciousness, self-awareness, and self-reliance.", author: "Noel Carroll" },
-      { text: "You don’t stop running because you get old. You get old because you stop running.", author: "Christopher McDougall" },
-      { text: "In running, every step counts, just like in life.", author: "Unknown" },
-      { text: "The reward of running is not in the finish line, but in the journey.", author: "Unknown" },
-      { text: "Running is the art of pushing yourself when you least want to.", author: "Unknown" },
-      { text: "Running is about finding your inner peace, and so is a life well lived.", author: "Dean Karnazes" },
-      { text: "There’s magic in the misery of running. That’s why we love it.", author: "Unknown" },
-      { text: "Run with your heart, not just your legs.", author: "Unknown" },
-      { text: "Your speed doesn’t matter. Forward is forward.", author: "Unknown" },
-      { text: "Long runs put the world back into perspective.", author: "Unknown" },
-      { text: "Sweat is just fat crying.", author: "Unknown" },
-      { text: "Running is cheaper than therapy.", author: "Unknown" },
-      { text: "Running clears my mind and fills my soul.", author: "Unknown" },
-      { text: "Every step forward is progress.", author: "Unknown" },
-      { text: "The finish line is just the beginning of a whole new race.", author: "Unknown" },
-      { text: "Tough runs don’t last, but tough runners do.", author: "Unknown" },
-      { text: "Running is a celebration of life and movement.", author: "Unknown" },
-      { text: "Running allows me to set my spirit free.", author: "Unknown" },
-      { text: "Your body can do it. It’s your mind you need to convince.", author: "Unknown" },
-      { text: "Don’t just run for distance, run for growth.", author: "Unknown" },
-      { text: "Discipline is the bridge between goals and achievement.", author: "Jim Rohn" },
-      { text: "Once you’re a runner, you’re always a runner.", author: "John Bingham" },
-      { text: "The voice in your head that says you can’t do it is a liar.", author: "Unknown" },
-      { text: "Running is the quietest form of rebellion.", author: "Unknown" },
-      { text: "There’s no bad run, only better stories.", author: "Unknown" }
-      // ⚡ Extend up to 200 quotes like this
-    ];
+    <script>
+        const questions = [
+            "Are you tired?",
+            "Having a fun run?",
+            "Ready to push limits?",
+            "Feeling the burn?",
+            "Need motivation?",
+            "Ready to crush it?",
+            "Time to find rhythm?",
+            "Looking for fire?",
+            "Ready to fly?",
+            "Feeling unstoppable?"
+        ];
 
-    function newQuote() {
-      const randomIndex = Math.floor(Math.random() * quotes.length);
-      document.getElementById("quote").textContent = `"${quotes[randomIndex].text}"`;
-      document.getElementById("author").textContent = `– ${quotes[randomIndex].author}`;
-    }
-  </script>
+        const quotes = [
+            { text: "RUN WILD", author: "Anonymous" },
+            { text: "SWEAT IS FAT CRYING", author: "Anonymous" },
+            { text: "PAIN IS TEMPORARY", author: "Anonymous" },
+            { text: "SHUT UP LEGS", author: "Jens Voigt" },
+            { text: "RUN LIKE YOU STOLE IT", author: "Anonymous" },
+            { text: "STRONG IS THE NEW SKINNY", author: "Anonymous" },
+            { text: "EARN YOUR SHOWER", author: "Anonymous" },
+            { text: "FIND YOUR STRONG", author: "Anonymous" },
+            { text: "NO EXCUSES", author: "Anonymous" },
+            { text: "PUSH HARDER", author: "Anonymous" },
+            { text: "RUN MORE WORRY LESS", author: "Anonymous" },
+            { text: "CHAMPIONS TRAIN", author: "Anonymous" },
+            { text: "MILES ARE EARNED", author: "Anonymous" },
+            { text: "RUN THE DAY", author: "Anonymous" },
+            { text: "STRONGER EVERY MILE", author: "Anonymous" },
+            { text: "FAST FEET HAPPY HEART", author: "Anonymous" },
+            { text: "RUN YOUR HEART OUT", author: "Anonymous" },
+            { text: "EMBRACE THE PACE", author: "Anonymous" },
+            { text: "KEEP RUNNING", author: "Anonymous" },
+            { text: "BEAST MODE ON", author: "Anonymous" },
+            { text: "RUN FREE", author: "Anonymous" },
+            { text: "PACE YOURSELF", author: "Anonymous" },
+            { text: "RUN HAPPY", author: "Anonymous" },
+            { text: "HUSTLE FOR THE MUSCLE", author: "Anonymous" },
+            { text: "RUN FEARLESS", author: "Anonymous" },
+            { text: "MIND OVER MILES", author: "Anonymous" },
+            { text: "RUN BOLD", author: "Anonymous" },
+            { text: "SWEAT NOW SHINE LATER", author: "Anonymous" },
+            { text: "RUN UNSTOPPABLE", author: "Anonymous" },
+            { text: "BORN TO RUN", author: "Anonymous" }
+        ];
+
+        let usedQuotes = [];
+        let currentPage = 'home';
+
+        function getRandomQuestion() {
+            return questions[Math.floor(Math.random() * questions.length)];
+        }
+
+        function startAnimation() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('animationPage').classList.remove('hidden');
+            
+            setTimeout(() => {
+                showQuotePage();
+            }, 3000);
+        }
+
+        function showQuotePage() {
+            document.getElementById('animationPage').classList.add('hidden');
+            document.getElementById('quotePage').classList.remove('hidden');
+            displayRandomQuote();
+        }
+
+        function displayRandomQuote() {
+            if (usedQuotes.length >= quotes.length) {
+                usedQuotes = [];
+            }
+            
+            let availableQuotes = quotes.filter((_, index) => !usedQuotes.includes(index));
+            let randomIndex = Math.floor(Math.random() * availableQuotes.length);
+            let selectedQuote = availableQuotes[randomIndex];
+            let originalIndex = quotes.indexOf(selectedQuote);
+            
+            usedQuotes.push(originalIndex);
+            
+            document.getElementById('quoteText').textContent = `"${selectedQuote.text}"`;
+            document.getElementById('quoteAuthor').textContent = `- ${selectedQuote.author}`;
+        }
+
+        function getNextQuote() {
+            displayRandomQuote();
+        }
+
+        // Initialize with random question
+        window.onload = function() {
+            document.getElementById('questionHeader').textContent = getRandomQuestion();
+        }
+    </script>
 </body>
 </html>
