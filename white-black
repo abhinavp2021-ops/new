@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Club Motivation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        body {
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            background: #fefefe;
+            min-height: 100vh;
+        }
+
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fefefe;
+            transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .page.hidden {
+            transform: translateY(-100vh);
+            opacity: 0;
+        }
+
+        /* Home Page Styles */
+        .home-page {
+            background: #fefefe;
+            text-align: center;
+            color: #1a1a1a;
+            z-index: 3;
+        }
+
+        .home-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .question-header {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 4rem;
+            color: #1a1a1a;
+            opacity: 0;
+            animation: slideUp 1.2s ease-out 0.3s forwards;
+            letter-spacing: -2px;
+        }
+
+        .cta-button {
+            background: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            color: #fefefe;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 1.8rem 4rem;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0;
+            animation: slideUp 1.2s ease-out 0.8s forwards;
+        }
+
+        .cta-button:hover {
+            background: #fefefe;
+            color: #1a1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(26, 26, 26, 0.15);
+        }
+
+        /* Animation Page Styles */
+        .animation-page {
+            background: #fefefe;
+            z-index: 2;
+            position: relative;
+        }
+
+        .animation-page::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            border: 2px solid #f0f0f0;
+            z-index: -1;
+        }
+
+        .runner-gif {
+            width: 300px;
+            height: 300px;
+            border-radius: 0;
+            box-shadow: 0 20px 60px rgba(26, 26, 26, 0.08);
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+            border: 4px solid #1a1a1a;
+        }
+
+        /* Quote Page Styles */
+        .quote-page {
+            background: #fefefe;
+            text-align: center;
+            color: #1a1a1a;
+            z-index: 1;
+        }
+
+        .quote-content {
+            max-width: 900px;
+            padding: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out 0.2s forwards;
+        }
+
+        .quote-text {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 3rem;
+            font-style: normal;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        .quote-author {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.5;
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .next-button {
+            background: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            color: #fefefe;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 1.5rem 3rem;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .next-button:hover {
+            background: #fefefe;
+            color: #1a1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(26, 26, 26, 0.15);
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { opacity: 1; }
+            50% { opacity: 0.9; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .home-content, .quote-content {
+                padding: 1rem;
+            }
+            
+            .cta-button {
+                font-size: 1.2rem;
+                padding: 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Page -->
+    <div class="page home-page" id="homePage">
+        <div class="home-content">
+            <h1 class="question-header" id="questionHeader">Are you tired?</h1>
+            <button class="cta-button" onclick="startAnimation()">Click Here!</button>
+        </div>
+    </div>
+
+    <!-- Animation Page -->
+    <div class="page animation-page hidden" id="animationPage">
+        <img src="https://media.giphy.com/media/3o6fIUZTTDl0IDjbZS/giphy.gif" alt="Running Animation" class="runner-gif">
+    </div>
+
+    <!-- Quote Page -->
+    <div class="page quote-page hidden" id="quotePage">
+        <div class="quote-content">
+            <p class="quote-text" id="quoteText"></p>
+            <p class="quote-author" id="quoteAuthor"></p>
+            <button class="next-button" onclick="getNextQuote()">Get Another Quote</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            "Are you tired?",
+            "Having a fun run?",
+            "Ready to push limits?",
+            "Feeling the burn?",
+            "Need motivation?",
+            "Ready to crush it?",
+            "Time to find rhythm?",
+            "Looking for fire?",
+            "Ready to fly?",
+            "Feeling unstoppable?"
+        ];
+
+        const quotes = [
+            { text: "RUN WILD", author: "Anonymous" },
+            { text: "SWEAT IS FAT CRYING", author: "Anonymous" },
+            { text: "PAIN IS TEMPORARY", author: "Anonymous" },
+            { text: "SHUT UP LEGS", author: "Jens Voigt" },
+            { text: "RUN LIKE YOU STOLE IT", author: "Anonymous" },
+            { text: "STRONG IS THE NEW SKINNY", author: "Anonymous" },
+            { text: "EARN YOUR SHOWER", author: "Anonymous" },
+            { text: "FIND YOUR STRONG", author: "Anonymous" },
+            { text: "NO EXCUSES", author: "Anonymous" },
+            { text: "PUSH HARDER", author: "Anonymous" },
+            { text: "RUN MORE WORRY LESS", author: "Anonymous" },
+            { text: "CHAMPIONS TRAIN", author: "Anonymous" },
+            { text: "MILES ARE EARNED", author: "Anonymous" },
+            { text: "RUN THE DAY", author: "Anonymous" },
+            { text: "STRONGER EVERY MILE", author: "Anonymous" },
+            { text: "FAST FEET HAPPY HEART", author: "Anonymous" },
+            { text: "RUN YOUR HEART OUT", author: "Anonymous" },
+            { text: "EMBRACE THE PACE", author: "Anonymous" },
+            { text: "KEEP RUNNING", author: "Anonymous" },
+            { text: "BEAST MODE ON", author: "Anonymous" },
+            { text: "RUN FREE", author: "Anonymous" },
+            { text: "PACE YOURSELF", author: "Anonymous" },
+            { text: "RUN HAPPY", author: "Anonymous" },
+            { text: "HUSTLE FOR THE MUSCLE", author: "Anonymous" },
+            { text: "RUN FEARLESS", author: "Anonymous" },
+            { text: "MIND OVER MILES", author: "Anonymous" },
+            { text: "RUN BOLD", author: "Anonymous" },
+            { text: "SWEAT NOW SHINE LATER", author: "Anonymous" },
+            { text: "RUN UNSTOPPABLE", author: "Anonymous" },
+            { text: "BORN TO RUN", author: "Anonymous" }
+        ];
+
+        let usedQuotes = [];
+        let currentPage = 'home';
+
+        function getRandomQuestion() {
+            return questions[Math.floor(Math.random() * questions.length)];
+        }
+
+        function startAnimation() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('animationPage').classList.remove('hidden');
+            
+            setTimeout(() => {
+                showQuotePage();
+            }, 3000);
+        }
+
+        function showQuotePage() {
+            document.getElementById('animationPage').classList.add('hidden');
+            document.getElementById('quotePage').classList.remove('hidden');
+            displayRandomQuote();
+        }
+
+        function displayRandomQuote() {
+            if (usedQuotes.length >= quotes.length) {
+                usedQuotes = [];
+            }
+            
+            let availableQuotes = quotes.filter((_, index) => !usedQuotes.includes(index));
+            let randomIndex = Math.floor(Math.random() * availableQuotes.length);
+            let selectedQuote = availableQuotes[randomIndex];
+            let originalIndex = quotes.indexOf(selectedQuote);
+            
+            usedQuotes.push(originalIndex);
+            
+            document.getElementById('quoteText').textContent = `"${selectedQuote.text}"`;
+            document.getElementById('quoteAuthor').textContent = `- ${selectedQuote.author}`;
+        }
+
+        function getNextQuote() {
+            displayRandomQuote();
+        }
+
+        // Initialize with random question
+        window.onload = function() {
+            document.getElementById('questionHeader').textContent = getRandomQuestion();
+        }
+    </script>
+</body>
+</html>
